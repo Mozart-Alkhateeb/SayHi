@@ -1,0 +1,7 @@
+{
+  "name": "say-hi",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
