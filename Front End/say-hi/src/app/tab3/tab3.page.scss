@@ -33,6 +33,7 @@ ion-toolbar {
   ion-avatar {
     width: 60px;
     height: 60px;
+    background-color: #ffffff;
   }
 
   p {
@@ -79,4 +80,5 @@ ion-text {
 ion-card-subtitle{
  padding-top: 10px;
   text-align: center;
+  --color: #ffbe00;
 }
