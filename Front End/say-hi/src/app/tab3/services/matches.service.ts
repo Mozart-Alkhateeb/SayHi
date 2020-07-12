@@ -5,16 +5,16 @@ import { Platform } from '@ionic/angular';
 
 import { environment } from 'src/environments/environment';
 import { IUser } from '../models/user.model';
+import { UrlService } from 'src/app/shared/services/url.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MatchesService {
-  baseUrl
+  baseUrl;
 
-  constructor(private http: HttpClient, private platform: Platform) {
-
-    this.baseUrl = (platform.is('hybrid') ? environment.apiVmUrl : environment.apiUrl) + 'users';
+  constructor(private http: HttpClient, private urlService: UrlService) {
+    this.baseUrl = `${urlService.baseUrl}users`;
   }
 
   get(): Observable<IUser[]> {

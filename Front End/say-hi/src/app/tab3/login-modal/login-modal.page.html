@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list lines="full" class="ion-no-margin ion-no-padding">
+    <ion-item>
+      <ion-label position="stacked">Name <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required type="text" [(ngModel)]="name"></ion-input>
+    </ion-item>
+    <ion-radio-group [(ngModel)]="gender">
+      <ion-list-header>
+        <ion-label>
+          Gender
+        </ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Male</ion-label>
+        <ion-radio value="Male"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Female</ion-label>
+        <ion-radio value="Female"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <div class="ion-padding">
+    <ion-button expand="block" (click)="login()" class="ion-no-margin" [disabled]="name.trim() == ''">Login</ion-button>
+  </div>
+
+</ion-content>
