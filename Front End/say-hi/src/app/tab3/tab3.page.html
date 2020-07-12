@@ -1,17 +1,58 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Matches
     </ion-title>
+    <div class="scrolling-wrapper-flexbox">
+      <div class="card" *ngFor="let match of matches">
+        <ion-avatar>
+          <img src="{{match.avatar}}">
+        </ion-avatar>
+        <ion-text>
+          <p>{{match.name}}</p>
+        </ion-text>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title size="large">Matches</ion-title>
+      <div class="scrolling-wrapper-flexbox">
+        <div class="card" *ngFor="let match of matches">
+          <ion-avatar>
+            <img src="{{match.avatar}}">
+          </ion-avatar>
+          <ion-text>
+            <p>{{match.name}}</p>
+          </ion-text>
+        </div>
+      </div>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-card>
+    <ion-card-subtitle>Messages</ion-card-subtitle>
+    <ion-content>
+      <ion-item>
+        <ion-list lines="none">
+          <ion-item *ngFor="let chat of matches">
+            <ion-avatar slot="start">
+              <img src="{{chat.avatar}}">
+            </ion-avatar>
+            <ion-label>
+              <h2>{{chat.name}}</h2>
+              <p>Listen, I've had a pretty messed up day...</p>
+            </ion-label>
+            <ion-text slot="end">
+              <p>11 pm</p>
+            </ion-text>
+          </ion-item>
+        </ion-list>
+      </ion-item>
+    </ion-content>
+  </ion-card>
+
 </ion-content>
