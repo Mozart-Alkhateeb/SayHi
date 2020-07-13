@@ -4,7 +4,7 @@
       Matches
     </ion-title>
     <div class="scrolling-wrapper-flexbox">
-      <div class="card" *ngFor="let match of matches">
+      <div class="card" *ngFor="let match of matches" (click)="chatClicked(match.id)">
         <ion-avatar>
           <img src="{{match.avatar}}">
         </ion-avatar>
@@ -21,7 +21,7 @@
     <ion-toolbar>
       <ion-title size="large">Matches</ion-title>
       <div class="scrolling-wrapper-flexbox">
-        <div class="card" *ngFor="let match of matches">
+        <div class="card" *ngFor="let match of matches" (click)="chatClicked('55')">
           <ion-avatar>
             <img src="{{match.avatar}}">
           </ion-avatar>
@@ -36,9 +36,8 @@
   <ion-card>
     <ion-card-subtitle>Messages</ion-card-subtitle>
     <ion-content>
-      <ion-item>
         <ion-list lines="none">
-          <ion-item *ngFor="let chat of matches">
+          <ion-item *ngFor="let chat of matches" button (click)="chatClicked()">
             <ion-avatar slot="start">
               <img src="{{chat.avatar}}">
             </ion-avatar>
@@ -51,7 +50,6 @@
             </ion-text>
           </ion-item>
         </ion-list>
-      </ion-item>
     </ion-content>
   </ion-card>
 

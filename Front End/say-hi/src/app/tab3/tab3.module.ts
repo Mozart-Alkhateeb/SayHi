@@ -7,8 +7,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { Tab3Page } from './tab3.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { Tab3PageRoutingModule } from './tab3-routing.module';
 import { LoginModalPage } from './login-modal/login-modal.page';
+import { ChatPage } from './chat/chat.page';
+import { Tab3PageRoutingModule } from './tab3-routing.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,6 @@ import { LoginModalPage } from './login-modal/login-modal.page';
 
     Tab3PageRoutingModule,
   ],
-  declarations: [Tab3Page, LoginModalPage],
+  declarations: [Tab3Page, LoginModalPage, ChatPage],
 })
 export class Tab3PageModule {}

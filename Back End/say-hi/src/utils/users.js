@@ -77,21 +77,28 @@ const users = [];
 //   },
 // ];
 
-const getUsers = () => {
-  return users;
+const getUsers = (id) => {
+  return users.filter((e) => e.id != id);
 };
 
-const addUser = (name, gender, socketId) => {
+const addUser = (name, gender) => {
   const randomImage = Math.floor(Math.random() * 6) + 1;
 
   const user = {
-    userId: socketId,
+    id: '',
     name: name,
+    gender: gender,
     avatar: `${AvatarsPath}/${gender == 'Male' ? 'm' : 'f'}-${randomImage}.png`,
   };
-
   users.push(user);
+  console.log(user);
+  return user;
+};
 
+const assignSocketId = (name, socketId) => {
+  const user = users.find((e) => e.name === name);
+  user.id = socketId;
+  console.log(user);
   return user;
 };
 
@@ -113,4 +120,5 @@ const addUser = (name, gender, socketId) => {
 module.exports = {
   getUsers,
   addUser,
+  assignSocketId,
 };

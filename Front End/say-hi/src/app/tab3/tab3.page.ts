@@ -7,6 +7,7 @@ import { Socket, SocketIoConfig } from 'ngx-socket-io';
 import { ChatSocketService } from '../shared/services/chat-socket.service';
 import { UrlService } from '../shared/services/url.service';
 import { LoginModalPage } from './login-modal/login-modal.page';
+import { ChatPage } from './chat/chat.page';
 
 @Component({
   selector: 'app-tab3',
@@ -16,7 +17,12 @@ import { LoginModalPage } from './login-modal/login-modal.page';
 export class Tab3Page implements OnInit {
   // todo Add Loading indicator
   matches: IUser[] = [];
-  me: IUser;
+  me: IUser = {
+    id: '',
+    name: '',
+    gender: '',
+    avatar: '',
+  };
 
   constructor(
     public modalController: ModalController,
@@ -26,43 +32,70 @@ export class Tab3Page implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
-
-    this.socket.on('userJoined', ()=>{
+    this.socket.on('userJoined', () => {
       this.refreshMatches();
     });
 
-    this.presentModal();
-    this.socket.connect();
-
-    if (this.me) {
-      this.refreshMatches();
+    if (this.me.id == '') {
+      this.presentModal();
     }
+
+    this.socket.connect();
   }
 
   async presentModal() {
     const modal = await this.modalController.create({
       component: LoginModalPage,
+      backdropDismiss: false,
+      swipeToClose: false,
     });
 
     modal.present();
 
     const { data } = await modal.onWillDismiss();
-    this.me = data;
+    this.me.name = data.name;
+    this.me.gender = data.gender;
     console.log(this.me);
-    this.socket.emit('login', this.me, (user) => {
-      this.me = user;
-      this.refreshMatches();
-    });
+
+    this.service.post(this.me).subscribe(
+      (res) => {
+        console.log('post');
+        console.log(res);
+        this.socket.emit('login', this.me, (user) => {
+          this.me = user;
+          this.refreshMatches();
+          console.log(this.me);
+        });
+      },
+      (error) => {
+        // todo: Add Error Handling
+      }
+    );
   }
 
   refreshMatches() {
-    this.service.get().subscribe((res) => {
-      this.matches = res.map((e) => {
-        e.avatar = `${this.urlService.baseUrl}${e.avatar}`;
-        return e;
-      });
-      // todo: Add Error Handling
+    this.service.get(this.me.id).subscribe((res) => {
+      this.matches = res.map(
+        (e) => {
+          e.avatar = `${this.urlService.baseUrl}${e.avatar}`;
+          return e;
+        },
+        (error) => {
+          // todo: Add Error Handling
+        }
+      );
     });
+  }
+
+  async chatClicked(userId) {
+    console.log(userId);
+    const modal = await this.modalController.create({
+      component: ChatPage,
+      backdropDismiss: false,
+      swipeToClose: false,
+    });
+
+    modal.present();
+
   }
 }

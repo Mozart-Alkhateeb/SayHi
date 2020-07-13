@@ -4,7 +4,7 @@ const socketIO = require('socket.io');
 var cors = require('cors');
 const path = require('path');
 const userRouter = require('./routers/userRoutes');
-const { addUser } = require('./utils/users');
+const { addUser, assignSocketId } = require('./utils/users');
 
 const app = express();
 const server = http.createServer(app);
@@ -24,7 +24,7 @@ io.on('connection', (socket) => {
   console.log(`new connection - ${socket.id}`);
 
   socket.on('login', (options, callback) => {
-    const user = addUser(options.name, options.gender, socket.id);
+    const user = assignSocketId(options.name, socket.id);
     callback(user);
 
     socket.broadcast.emit('userJoined');

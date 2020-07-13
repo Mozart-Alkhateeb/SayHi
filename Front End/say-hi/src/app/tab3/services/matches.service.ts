@@ -17,7 +17,14 @@ export class MatchesService {
     this.baseUrl = `${urlService.baseUrl}users`;
   }
 
-  get(): Observable<IUser[]> {
-    return this.http.get<IUser[]>(this.baseUrl);
+  get(id): Observable<IUser[]> {
+    return this.http.get<IUser[]>(`${this.baseUrl}/${id}`);
+  }
+
+  post(model: IUser) {
+    return this.http.post(this.baseUrl, {
+      name: model.name,
+      gender: model.gender,
+    });
   }
 }
