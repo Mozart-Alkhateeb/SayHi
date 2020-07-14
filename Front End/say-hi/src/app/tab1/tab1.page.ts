@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatPage } from '../tab3/chat/chat.page';
+import { ChatPage } from '../chat-tab/chat/chat.page';
 import { ModalController } from '@ionic/angular';
 
 @Component({

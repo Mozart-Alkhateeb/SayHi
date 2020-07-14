@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -30,7 +30,7 @@ import { UrlService } from './shared/services/url.service';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     UrlService,
-    ChatSocketService
+    ChatSocketService,
   ],
   bootstrap: [AppComponent],
 })

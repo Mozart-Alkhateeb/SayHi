@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { MatchesService } from './services/matches.service';
 import { IUser } from './models/user.model';
-import { Platform, ModalController } from '@ionic/angular';
-import { Socket, SocketIoConfig } from 'ngx-socket-io';
+import { ModalController } from '@ionic/angular';
 import { ChatSocketService } from '../shared/services/chat-socket.service';
 import { UrlService } from '../shared/services/url.service';
 import { LoginModalPage } from './login-modal/login-modal.page';
 import { ChatPage } from './chat/chat.page';
 
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss'],
+  selector: 'app-chat-tab',
+  templateUrl: 'chat-tab.page.html',
+  styleUrls: ['chat-tab.page.scss'],
 })
-export class Tab3Page implements OnInit {
+export class ChatTabPage implements OnInit {
   // todo Add Loading indicator
   matches: IUser[] = [];
   me: IUser = {

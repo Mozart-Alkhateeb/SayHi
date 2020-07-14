@@ -4,12 +4,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { Tab3Page } from './tab3.page';
+import { ChatTabPage } from './chat-tab.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { LoginModalPage } from './login-modal/login-modal.page';
 import { ChatPage } from './chat/chat.page';
-import { Tab3PageRoutingModule } from './tab3-routing.module';
+import { ChatTabPageRoutingModule } from './chat-tab-routing.module';
 
 @NgModule({
   imports: [
@@ -18,10 +18,10 @@ import { Tab3PageRoutingModule } from './tab3-routing.module';
     FormsModule,
     HttpClientModule,
     ExploreContainerComponentModule,
-    RouterModule.forChild([{ path: '', component: Tab3Page }]),
+    RouterModule.forChild([{ path: '', component: ChatTabPage }]),
 
-    Tab3PageRoutingModule,
+    ChatTabPageRoutingModule,
   ],
-  declarations: [Tab3Page, LoginModalPage, ChatPage],
+  declarations: [ChatTabPage, LoginModalPage, ChatPage],
 })
-export class Tab3PageModule {}
+export class ChatTabPageModule {}

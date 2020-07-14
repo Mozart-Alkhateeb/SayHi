@@ -22,7 +22,7 @@ export class TabsPage {
       label: 'Favorites',
     },
     {
-      tab: 'tab3',
+      tab: 'chat-tab',
       icon: 'chatbubbles-sharp',
       label: 'Matches',
     },
