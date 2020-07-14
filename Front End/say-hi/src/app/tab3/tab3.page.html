@@ -21,7 +21,7 @@
     <ion-toolbar>
       <ion-title size="large">Matches</ion-title>
       <div class="scrolling-wrapper-flexbox">
-        <div class="card" *ngFor="let match of matches" (click)="chatClicked('55')">
+        <div class="card" *ngFor="let match of matches" (click)="chatClicked(match.id)">
           <ion-avatar>
             <img src="{{match.avatar}}">
           </ion-avatar>

@@ -91,8 +91,6 @@ export class Tab3Page implements OnInit {
     console.log(userId);
     const modal = await this.modalController.create({
       component: ChatPage,
-      backdropDismiss: false,
-      swipeToClose: false,
     });
 
     modal.present();

@@ -1,9 +1,29 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Chat</ion-title>
+    <ion-avatar slot="end">
+      <img src="http://localhost:3000/avatars/m-1.png">
+    </ion-avatar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-content>
+      <ion-list lines="none">
+        <ion-item [ngClass]="message.id === 'me' ? 'bubble-me' : 'bubble'" *ngFor="let message of messages" button (click)="chatClicked()">
+          <ion-label class="ion-text-wrap">
+            <p>{{message.message}}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-input class="chat-box" placeholder="Enter Input"></ion-input>
+    </ion-content>
+  </ion-card>
 
 </ion-content>
