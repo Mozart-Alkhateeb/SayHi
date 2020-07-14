@@ -3,7 +3,6 @@ import { MatchesService } from './services/matches.service';
 import { IUser } from './models/user.model';
 import { ModalController } from '@ionic/angular';
 import { ChatSocketService } from '../shared/services/chat-socket.service';
-import { UrlService } from '../shared/services/url.service';
 import { LoginModalPage } from './login-modal/login-modal.page';
 import { ChatPage } from './chat/chat.page';
 
@@ -14,7 +13,7 @@ import { ChatPage } from './chat/chat.page';
 })
 export class ChatTabPage implements OnInit {
   // todo Add Loading indicator
-  matches: IUser[] = [];
+  matches: IUser[];
   me: IUser = {
     id: '',
     name: '',
@@ -24,12 +23,15 @@ export class ChatTabPage implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    private service: MatchesService,
-    private urlService: UrlService,
+    public service: MatchesService,
     private socket: ChatSocketService
   ) {}
 
   ngOnInit(): void {
+    this.service.getMatchesChangedEmitter().subscribe((res) => {
+      this.matches = res;
+    });
+
     this.socket.on('userJoined', () => {
       this.refreshMatches();
     });
@@ -72,26 +74,18 @@ export class ChatTabPage implements OnInit {
   }
 
   refreshMatches() {
-    this.service.get(this.me.id).subscribe((res) => {
-      this.matches = res.map(
-        (e) => {
-          e.avatar = `${this.urlService.baseUrl}${e.avatar}`;
-          return e;
-        },
-        (error) => {
-          // todo: Add Error Handling
-        }
-      );
-    });
+    this.service.get(this.me.id);
   }
 
-  async chatClicked(userId) {
-    console.log(userId);
+  async chatClicked(match) {
+    console.log(match);
     const modal = await this.modalController.create({
       component: ChatPage,
+      componentProps: {
+        'match': match,
+      }
     });
 
     modal.present();
-
   }
 }

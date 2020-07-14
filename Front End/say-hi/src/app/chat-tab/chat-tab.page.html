@@ -4,7 +4,7 @@
       Matches
     </ion-title>
     <div class="scrolling-wrapper-flexbox">
-      <div class="card" *ngFor="let match of matches" (click)="chatClicked(match.id)">
+      <div class="card" *ngFor="let match of matches" (click)="chatClicked(match)">
         <ion-avatar>
           <img src="{{match.avatar}}">
         </ion-avatar>
@@ -21,7 +21,7 @@
     <ion-toolbar>
       <ion-title size="large">Matches</ion-title>
       <div class="scrolling-wrapper-flexbox">
-        <div class="card" *ngFor="let match of matches" (click)="chatClicked(match.id)">
+        <div class="card" *ngFor="let match of matches" (click)="chatClicked(match)">
           <ion-avatar>
             <img src="{{match.avatar}}">
           </ion-avatar>

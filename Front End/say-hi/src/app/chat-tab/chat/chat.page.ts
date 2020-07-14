@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { IUser } from '../models/user.model';
+import { MatchesService } from '../services/matches.service';
 
 @Component({
   selector: 'app-chat',
@@ -7,29 +9,23 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
-  messages =[
-    {message: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', id: 'me',},
-    {message: 'hiasdasdasdasdsad', id: 'he',},
-    {message: 'hi bro hru ?', id: 'me',},
-    {message: 'hi dadasdkiasdjk', id: 'me',},
-    {message: 'hi abc dkdkdk', id: 'he',},
-    {message: 'hi asdsadasddasd', id: 'me',},
-    {message: 'hi asdsadasddasd', id: 'me',},
-    {message: 'hi asdsadasddasd', id: 'me',},
-    {message: 'hi asdsadasddasd', id: 'me',},
-    {message: 'hi asdsadasddasd', id: 'me',},
-    {message: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit', id: 'he',},
-    {message: 'hi asdsadasddasd', id: 'me',},
-    {message: 'hi asdsadasddasd', id: 'me',},
-    {message: 'hi asdsadasddasd', id: 'me',},
-    {message: 'hi asdsadasddasd', id: 'me',},
-    {message: 'hi asdsadasddasd', id: 'me',},
-    {message: 'hi Lat message', id: 'me',},
-  ]
-  
-  constructor(public modalController: ModalController) {}
+  @Input() match: IUser;
 
-  ngOnInit() {}
+  messages;
+
+  constructor(
+    public modalController: ModalController,
+    private service: MatchesService
+  ) {}
+
+  ngOnInit() {
+    this.service.getChats(1, 2).subscribe(
+      (res) => {
+        this.messages = res;
+      },
+      (error) => {}
+    );
+  }
 
   dismiss() {
     this.modalController.dismiss({});
