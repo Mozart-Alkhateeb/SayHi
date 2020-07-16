@@ -37,7 +37,7 @@
     <ion-card-subtitle>Messages</ion-card-subtitle>
     <ion-content>
         <ion-list lines="none">
-          <ion-item *ngFor="let chat of matches" button (click)="chatClicked()">
+          <ion-item *ngFor="let chat of matches" button (click)="chatClicked(chat)">
             <ion-avatar slot="start">
               <img src="{{chat.avatar}}">
             </ion-avatar>

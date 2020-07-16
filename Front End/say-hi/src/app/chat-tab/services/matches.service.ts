@@ -23,6 +23,7 @@ export class MatchesService {
   init() {
     this.onMessage();
     this.onUserJoined();
+    this.userDisconnected();
     this.get(this.me.id);
   }
 
@@ -101,6 +102,12 @@ export class MatchesService {
 
   onUserJoined() {
     this.socket.on('userJoined', () => {
+      this.get(this.me.id);
+    });
+  }
+
+  userDisconnected() {
+    this.socket.on('userDisconnected', () => {
       this.get(this.me.id);
     });
   }

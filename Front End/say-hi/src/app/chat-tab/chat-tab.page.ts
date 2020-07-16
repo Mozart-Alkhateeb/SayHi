@@ -67,6 +67,7 @@ export class ChatTabPage implements OnInit {
       },
       (error) => {
         // todo: Add Error Handling
+        console.log(error);
       }
     );
   }

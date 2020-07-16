@@ -3,8 +3,9 @@ const http = require('http');
 const socketIO = require('socket.io');
 var cors = require('cors');
 const path = require('path');
+
 const userRouter = require('./routers/userRoutes');
-const { assignSocketId } = require('./utils/users');
+const { assignSocketId, removeUser } = require('./utils/users');
 const { addMessage } = require('./utils/messages');
 
 const app = express();
@@ -26,27 +27,39 @@ app.use(userRouter);
 
 // listen to connections on socket.io
 io.on('connection', (socket) => {
-  console.log(`new connection - ${socket.id}`);
 
+  // Listen from login event
   socket.on('login', (options, callback) => {
-    const user = assignSocketId(options.name, socket.id);
-    callback(user);
-    //socket.join(socket.id)
 
+    // Assign the socket id to the user
+    const user = assignSocketId(options.name, socket.id);
+
+    // Return the new user object with socket id
+    callback(user);
+
+    // Notify all connections that a new user has joined
     socket.broadcast.emit('userJoined');
   });
 
+  // Listen to message event
   socket.on('message', (options, callback) => {
+    
+    // Add the new message to the chat list
     const message = addMessage(socket.id, options.receiver, options.message);
-    //socket.join(options.receiver);
-    console.log('options');
-    console.log(options);
+
+    // Notify receiver about he new message
     socket.broadcast.to(options.receiver).emit('message', message);
+
+    // Return the message to the sender
     callback(message);
   });
 
   socket.on('disconnect', () => {
-    console.log(`disconnected - ${socket.id}`);
+    // Remove the user one he gets disconnected
+    removeUser(socket.id);
+
+    // Notify connection that the user collection has changed
+    socket.broadcast.emit('userDisconnected');
   });
 });
 

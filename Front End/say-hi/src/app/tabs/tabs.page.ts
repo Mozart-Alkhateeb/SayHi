@@ -30,13 +30,8 @@ export class TabsPage {
 
   constructor() {}
 
-  layout(e) {
-    console.log(e);
-    return 'icon-top';
-  }
-
   ionTabsDidChange() {
     this.selectedTab = this.ionTabs.getSelected();
-    console.log(this.ionTabs.getSelected());
+    // console.log(this.ionTabs.getSelected());
   }
 }
