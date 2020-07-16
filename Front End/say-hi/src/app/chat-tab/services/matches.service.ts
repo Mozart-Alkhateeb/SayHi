@@ -3,21 +3,31 @@ import { HttpClient } from '@angular/common/http';
 
 import { IUser } from '../models/user.model';
 import { UrlService } from 'src/app/shared/services/url.service';
+import { IMessage } from '../models/message.model';
+import { ChatSocketService } from 'src/app/shared/services/chat-socket.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class MatchesService {
   baseUrl;
+  messages: IMessage[] = [];
+  me: IUser;
 
-  constructor(private http: HttpClient, private urlService: UrlService) {
+  constructor(
+    private http: HttpClient,
+    private urlService: UrlService,
+    private socket: ChatSocketService
+  ) {
     this.baseUrl = `${urlService.baseUrl}users`;
+  }
+
+  init() {
+    this.onMessage();
+    this.onUserJoined();
+    this.get(this.me.id);
   }
 
   get(id) {
     this.http.get<IUser[]>(`${this.baseUrl}/${id}`).subscribe((res) => {
-      console.log('res');
-      console.log(res);
       const matches = res.map(
         (e) => {
           e.avatar = `${this.urlService.baseUrl}${e.avatar}`;
@@ -31,10 +41,36 @@ export class MatchesService {
     });
   }
 
-  getChats(sender, receiver) {
-    return this.http.get<IUser[]>(
-      `${this.baseUrl}/${sender}/chats/${receiver}`
-    );
+  private matchesChanged: EventEmitter<IUser[]> = new EventEmitter();
+  private emitMatchesChangedEvent(matches) {
+    this.matchesChanged.emit(matches);
+  }
+
+  getMatchesChangedEmitter() {
+    return this.matchesChanged;
+  }
+
+  getChats(id) {
+    return this.http
+      .get<IMessage[]>(`${this.baseUrl}/${id}/chats`)
+      .subscribe((res) => {
+        this.messages = res;
+      });
+  }
+
+  getMessages(id) {
+    console.log('getMessages');
+    console.log(this.messages);
+    return this.messages.filter((e) => e.sender == id || e.receiver == id);
+  }
+
+  private messagesChanged: EventEmitter<void> = new EventEmitter();
+  private emitMessagesChangedEvent() {
+    this.messagesChanged.emit();
+  }
+
+  getMessagesChangedEmitter() {
+    return this.messagesChanged;
   }
 
   post(model: IUser) {
@@ -44,12 +80,28 @@ export class MatchesService {
     });
   }
 
-  private matchesChanged: EventEmitter<IUser[]> = new EventEmitter();
-  private emitMatchesChangedEvent(matches) {
-    this.matchesChanged.emit(matches);
+  sendMessage(message) {
+    this.socket.emit('message', message, (incomingMessage) => {
+      incomingMessage.me = true;
+      console.log(incomingMessage);
+      this.messages.push(incomingMessage);
+      this.emitMessagesChangedEvent();
+    });
   }
 
-  getMatchesChangedEmitter() {
-    return this.matchesChanged;
+  onMessage() {
+    this.socket.on('message', (message) => {
+      console.log('message received');
+      console.log(message);
+      message.me = false;
+      this.messages.push(message);
+      this.emitMessagesChangedEvent();
+    });
+  }
+
+  onUserJoined() {
+    this.socket.on('userJoined', () => {
+      this.get(this.me.id);
+    });
   }
 }

@@ -16,14 +16,20 @@
   <ion-card>
     <ion-content>
       <ion-list lines="none">
-        <ion-item [ngClass]="message.me === true ? 'bubble-me' : 'bubble'" *ngFor="let message of messages" button (click)="chatClicked()">
+        <ion-item [ngClass]="message.me === true ? 'bubble-me' : 'bubble'" *ngFor="let message of messages" button
+          (click)="chatClicked()">
           <ion-label class="ion-text-wrap">
             <p>{{message.message}}</p>
           </ion-label>
         </ion-item>
       </ion-list>
-      <ion-input class="chat-box" placeholder="Enter Input"></ion-input>
+      <div class="chat-box">
+        <ion-input placeholder="Type your message here" [(ngModel)]="message"></ion-input>
+        <div class="space"></div>
+        <ion-button shape="round" size="small" (click)="sendMessage()">
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+      </div>
     </ion-content>
   </ion-card>
-
 </ion-content>

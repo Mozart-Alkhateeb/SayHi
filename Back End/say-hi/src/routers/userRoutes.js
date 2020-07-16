@@ -3,6 +3,7 @@ const router = new express.Router();
 const { getUsers, addUser } = require('../utils/users');
 const { getMessages } = require('../utils/messages');
 
+// returns list of user except the supplied user id
 router.get('/users/:id', async (req, res) => {
   try {
     const id = req.params.id;
@@ -14,6 +15,7 @@ router.get('/users/:id', async (req, res) => {
   }
 });
 
+// adds a new user to the users collection
 router.post('/users', async (req, res) => {
   let user = req.body;
 
@@ -26,13 +28,12 @@ router.post('/users', async (req, res) => {
   }
 });
 
-router.get('/users/:id/chats/:chatId', async (req, res) => {
+// Get chats for this user Id
+router.get('/users/:id/chats', async (req, res) => {
   try {
-    const sender = req.params.id;
-    const receiver = req.params.chatId;
-    // console.log(id, chatId);
+    const id = req.params.id;
 
-    res.send(getMessages(sender, receiver));
+    res.send(getMessages(id));
   } catch (e) {
     res.status(400).send();
     console.log('error');

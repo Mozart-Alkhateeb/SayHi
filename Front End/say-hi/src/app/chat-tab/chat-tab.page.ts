@@ -28,18 +28,17 @@ export class ChatTabPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Listen to matches changed event
     this.service.getMatchesChangedEmitter().subscribe((res) => {
       this.matches = res;
     });
 
-    this.socket.on('userJoined', () => {
-      this.refreshMatches();
-    });
-
     if (this.me.id == '') {
+      // No id => not logged in yet
       this.presentModal();
     }
 
+    // Connect to Socket.io
     this.socket.connect();
   }
 
@@ -55,16 +54,15 @@ export class ChatTabPage implements OnInit {
     const { data } = await modal.onWillDismiss();
     this.me.name = data.name;
     this.me.gender = data.gender;
-    console.log(this.me);
 
     this.service.post(this.me).subscribe(
       (res) => {
-        console.log('post');
-        console.log(res);
         this.socket.emit('login', this.me, (user) => {
           this.me = user;
-          this.refreshMatches();
-          console.log(this.me);
+          this.service.me = this.me;
+          // Initialize Socket.io listeners
+          this.service.init();
+          this.service.getChats(this.me.id);
         });
       },
       (error) => {
@@ -73,17 +71,13 @@ export class ChatTabPage implements OnInit {
     );
   }
 
-  refreshMatches() {
-    this.service.get(this.me.id);
-  }
-
   async chatClicked(match) {
-    console.log(match);
     const modal = await this.modalController.create({
       component: ChatPage,
       componentProps: {
-        'match': match,
-      }
+        match: match,
+        userId: this.me.id,
+      },
     });
 
     modal.present();

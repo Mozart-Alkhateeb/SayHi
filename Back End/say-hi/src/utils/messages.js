@@ -5,15 +5,12 @@ const messages = [
   { sender: 2, receiver: 3, message: 'hello how are you' },
 ];
 
-const getMessages = (sender, receiver) => {
-  var res = messages.filter(
-    (e) =>
-      (e.sender == sender && e.receiver == receiver) ||
-      (e.sender == receiver && e.receiver == sender)
-  );
+// returns messages sent or received by this user id
+const getMessages = (id) => {
+  var res = messages.filter((e) => e.sender == id || e.receiver == id);
 
   res.forEach((e) => {
-    if (e.sender == sender) {
+    if (e.sender == id) {
       e.me = true;
     } else {
       e.me = false;
@@ -22,8 +19,21 @@ const getMessages = (sender, receiver) => {
   return res;
 };
 
+addMessage = (id, receiver, message) => {
+  const messageObj = {
+    sender: id,
+    receiver: receiver,
+    message: message,
+    date: new Date(),
+  };
+  messages.push(messageObj);
+
+  return messageObj;
+};
+
 module.exports = {
-    getMessages,
+  getMessages,
+  addMessage,
 };
 
 // console.log(getMessages(1, 2));

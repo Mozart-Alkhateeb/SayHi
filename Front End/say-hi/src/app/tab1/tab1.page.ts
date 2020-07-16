@@ -10,10 +10,10 @@ import { ModalController } from '@ionic/angular';
 export class Tab1Page implements OnInit {
   constructor(public modalController: ModalController) {}
   async ngOnInit() {
-    const modal = await this.modalController.create({
-      component: ChatPage,
-    });
+    // const modal = await this.modalController.create({
+    //   component: ChatPage,
+    // });
 
-    modal.present();
+    // modal.present();
   }
 }

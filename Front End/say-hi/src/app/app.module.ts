@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChatSocketService } from './shared/services/chat-socket.service';
 import { UrlService } from './shared/services/url.service';
+import { MatchesService } from './chat-tab/services/matches.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import { UrlService } from './shared/services/url.service';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     UrlService,
     ChatSocketService,
+    MatchesService
   ],
   bootstrap: [AppComponent],
 })
